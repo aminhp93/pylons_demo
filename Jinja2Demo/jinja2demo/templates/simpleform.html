@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Enter your email</h1>
+
+{{ h.form(h.url(controller='formset', action='submit'), method='get') }}
+{{ h.text("email") }}
+{{ h.submit('submit', "Submit") }}
+
+{{ h.end_form }}
+
+{% endblock %}

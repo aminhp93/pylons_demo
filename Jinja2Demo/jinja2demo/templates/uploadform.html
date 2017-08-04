@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Upload your file</h1>
+
+{{ h.form(h.url(controller='upload', action='upload'), multipart=True) }}
+{{ h.file('myfile') }}
+{{ h.text("description") }}
+{{ h.submit('submit', "Submit") }}
+
+{{ h.end_form }}
+
+{% endblock %}

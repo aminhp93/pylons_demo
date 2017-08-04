@@ -1,0 +1,3 @@
+include jinja2demo/config/deployment.ini_tmpl
+recursive-include jinja2demo/public *
+recursive-include jinja2demo/templates *
