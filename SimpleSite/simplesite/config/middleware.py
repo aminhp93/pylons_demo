@@ -1,4 +1,9 @@
 """Pylons middleware initialization"""
+
+import authkit.authenticate
+# import authkit.authorize
+from authkit.permissions import ValidAuthKitUser
+
 from beaker.middleware import SessionMiddleware
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
@@ -48,6 +53,10 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     if asbool(full_stack):
         # Handle Python exceptions
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
+
+        permission = ValidAuthKitUser()
+        app = authkit.authorize.middleware(app, permission)
+        app = authkit.authenticate.middleware(app, app_conf)
 
         # Display error documents for 401, 403, 404 status codes (and
         # 500 when debug is disabled)

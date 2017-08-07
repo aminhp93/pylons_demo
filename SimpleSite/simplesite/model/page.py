@@ -1,7 +1,7 @@
 from sqlalchemy import Column
 from sqlalchemy.types import Integer, String
 from sqlalchemy.orm import relation
-
+# from simplesite.model.video import Video
 from simplesite.model.meta import Base
 
 class Page(Base):

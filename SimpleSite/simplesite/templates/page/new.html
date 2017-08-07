@@ -3,9 +3,16 @@
 New Page
 {% endblock %}
 {% block content %}
+
 {{ h.form(h.url(controller='page', action='create'), method='post') }}
+
 Title: {{ h.text('title')}}<br>
 Content: {{ h.text('content')}}<br>
+Video: <select name="video_id" id="">
+	{% for video in c.videos %}
+	<option value="{{video.id}}">{{ video.title }}</option>
+	{% endfor %}
+</select><br>
 {{ h.submit('submit', 'Submit') }}
 {{ h.end_form() }}
 {% endblock %}

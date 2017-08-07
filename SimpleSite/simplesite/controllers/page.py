@@ -8,7 +8,7 @@ from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 
-from simplesite.model import Page#, Video
+from simplesite.model import Page, Video
 from simplesite.lib.base import BaseController, render
 from simplesite.model.meta import Session
 
@@ -36,10 +36,11 @@ class PageController(BaseController):
 		c.page = self.page_q.get(int(id))
 		if c.page is None:
 			abort(404)
-		# c.videos = Session.query(Video).all()
+		
 		return render('page/show.html')
 
-	def new(self):	
+	def new(self):
+		c.videos = Session.query(Video)
 		return render('page/new.html')
 
 	@validate(schema=NewPageForm(), form='new')
@@ -47,7 +48,10 @@ class PageController(BaseController):
 		page = Page()
 		for k, v in self.form_result.items():
 			setattr(page, k, v)
-
+		video = Session.query(Video).filter_by(id=request.params['video_id']).first()
+		if video is None:
+			abort(404)
+		page.videos.append(video)
 		Session.add(page)
 		Session.commit()
 		return redirect(url(controller='page', action='list'))

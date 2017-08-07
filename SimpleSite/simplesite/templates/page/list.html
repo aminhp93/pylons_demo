@@ -1,11 +1,36 @@
 {% extends 'base.html' %}
 {% block title %} 
- | List Page
+ | List Video
 {% endblock %}
 {% block content %}
 <h1><a href="/page/new">Add new page</a></h1>
-{% for page in c.pages %}
-	<li><a href="/page/show/{{ page.id }}">{{ page.title }}</a> | <a href="/page/show/{{ page.id }}">View</a> | <a href="/page/edit/{{ page.id }}">Edit</a> | <a href="/page/delete/{{ page.id }}">Delete</a></li>
-{% endfor %}
+
+	<div class="panel panel-default">
+	  <!-- Default panel contents -->
+	  <div class="panel-heading">Page Table</div>
+	 
+	  <!-- Table -->
+	  <table class="table">
+	    <thead>
+	      <tr>
+	        <th>Title</th>
+	        <th>View</th>
+	        <th>Edit</th>
+	        <th>Delete</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    {% for page in c.pages %}
+	      <tr>
+	        <td><a href="/page/show/{{ page.id }}">{{ page.title }}</a></td>
+	        <td><a href="/page/show/{{ page.id }}">View</a></td>
+	        <td><a href="/page/edit/{{ page.id }}">Edit</a></td>
+	        <td><a href="/page/delete/{{ page.id }}">Delete</a></td>
+	      </tr>
+	      {% endfor %}
+	     </tbody>
+	  </table>
+	</div>
+
 
 {% endblock %}

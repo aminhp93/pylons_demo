@@ -11,7 +11,9 @@
 	Content: {{ c.page.content }}
 </div>
 <div>
-	Video: {{ c.page.video }}
+	Video: {% for video in c.page.videos %}
+	<li><a href="/video/show/{{ video.id }}">{{ video.title }}</a></li>
+	{% endfor %}
 </div>
 
 {% endblock %}
