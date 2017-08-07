@@ -28,6 +28,11 @@ class PageController(BaseController):
 
 	def list(self):
 		c.pages = self.page_q
+		c.paginator = h.paginate.Page(
+			c.pages,
+			page=int(request.params.get('page', 1)),
+			items_per_page = 1,
+		)
 		return render('page/list.html')
 
 	def show(self, id=None):
