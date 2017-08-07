@@ -1,9 +1,4 @@
-    
 """Pylons middleware initialization"""
-import authkit.authenticate 
-import authkit.authorize
-
-from authkit.permissions import ValidAuthKitUser
 from beaker.middleware import SessionMiddleware
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
@@ -13,7 +8,7 @@ from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
 
-from authdemo.config.environment import load_environment
+from simplesite.config.environment import load_environment
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -51,11 +46,6 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
 
     if asbool(full_stack):
-        
-        # permission = ValidAuthKitUser()
-        # app = authkit.authorize.middleware(app, permission)
-        app = authkit.authenticate.middleware(app, app_conf)
-        
         # Handle Python exceptions
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
 

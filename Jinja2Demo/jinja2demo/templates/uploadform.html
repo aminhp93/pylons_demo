@@ -3,7 +3,7 @@
 <h1>Upload your file</h1>
 
 {{ h.form(h.url(controller='upload', action='upload'), multipart=True) }}
-{{ h.file('myfile') }}
+{{ h.file('myfile') }}/<br>
 {{ h.text("description") }}
 {{ h.submit('submit', "Submit") }}
 

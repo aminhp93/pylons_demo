@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}
+ | {{ c.video.title }} Video
+{% endblock %}
+{% block content %}
+<div>Video No. {{ c.video.id }}</div>
+<div>
+	Title: {{ c.video.title }}
+</div>
+<div>
+	Url: {{ c.video.url }}
+</div>
+
+{% endblock %}

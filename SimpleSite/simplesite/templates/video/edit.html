@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} 
+ | Edit {{ c.title }} Video
+{% endblock %}
+{% block content %}
+<h3>Editing the source code for the {{ c.title }} video:</h3>
+{{ h.form(h.url(controller='video', action='save', id=request.urlvars['id'], method='post')) }}
+Title: {{ h.text('title')}}<br>
+Url: {{ h.text('url')}}<br>
+{{ h.submit('submit', 'Submit') }}
+{{ h.end_form() }}
+{% endblock %}

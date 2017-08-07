@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} 
+New Page
+{% endblock %}
+{% block content %}
+{{ h.form(h.url(controller='page', action='create'), method='post') }}
+Title: {{ h.text('title')}}<br>
+Content: {{ h.text('content')}}<br>
+{{ h.submit('submit', 'Submit') }}
+{{ h.end_form() }}
+{% endblock %}

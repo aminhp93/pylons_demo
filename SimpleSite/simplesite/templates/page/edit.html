@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} 
+ | Edit {{ c.title }} Page
+{% endblock %}
+{% block content %}
+<h3>Editing the source code for the {{ c.title }} page:</h3>
+{{ h.form(h.url(controller='page', action='save', id=request.urlvars['id'], method='post')) }}
+Title: {{ h.text('title')}}<br>
+Content: {{ h.text('content')}}<br>
+{{ h.submit('submit', 'Submit') }}
+{{ h.end_form() }}
+{% endblock %}

@@ -29,10 +29,10 @@ class AuthController(BaseController):
 			response.status = "401 Not Authenticated"
 			return "You are not authenticated"
 
-	# @authorize(RemoteUser())
-	# # @authorize(UserIn(['amin']))
-	# def private(self):
-	# 	return "You are authenticated!"
+	@authorize(RemoteUser())
+	# @authorize(UserIn(['amin']))
+	def private(self):
+		return "You are authenticated!"
 
 	def signout(self):
 		return "Signed out"

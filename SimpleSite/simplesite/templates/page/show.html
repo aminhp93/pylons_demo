@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+ | {{ c.page.title }} Page
+{% endblock %}
+{% block content %}
+<div>Page No. {{ c.page.id }}</div>
+<div>
+	Title: {{ c.page.title }}
+</div>
+<div>
+	Content: {{ c.page.content }}
+</div>
+<div>
+	Video: {{ c.page.video }}
+</div>
+
+{% endblock %}
