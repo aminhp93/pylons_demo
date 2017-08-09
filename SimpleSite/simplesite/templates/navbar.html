@@ -16,6 +16,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/page/list">Page</a></li>
         <li><a href="/video/list">Video</a></li>
+        <li><a href="/account/admin">Admin</a></li>
         
       </ul>
       <form class="navbar-form navbar-left">
@@ -28,11 +29,11 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            {% if request.remote_user %}
-            <li><a href="/auth/signout">Sign out</a></li>
+            {% if session['user']  %}
+            <li><a href="/account/signout">Sign out</a></li>
             {% else %}
-            <li><a href="#">Sign up</a></li>
-            <li><a href="#">Sign in</a></li>
+            <li><a href="/account/signup">Sign up</a></li>
+            <li><a href="/account/signin">Sign in</a></li>
             {% endif %}
           </ul>
         </li>

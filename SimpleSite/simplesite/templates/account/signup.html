@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} 
+Signup{% endblock %}
+{% block content %}
+<h1>Sign Up</h1>
+{{ h.form(h.url(controller='account', action='create_user'), method='post') }}
+
+Username: {{ h.text('username')}}<br>
+Password: {{ h.text('password')}}<br>
+
+{{ h.submit('submit', 'Sign Up') }}
+{{ h.end_form() }}
+{% endblock %}

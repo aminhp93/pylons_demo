@@ -2,6 +2,8 @@ import logging
 import formencode
 from formencode import htmlfill
 
+from authkit.authorize.pylons_adaptors import authorize
+import authkit
 from simplesite.lib import helpers as h
 
 from pylons import request, response, session, tmpl_context as c, url
@@ -29,10 +31,11 @@ class PageController(BaseController):
 	def list(self):
 		c.pages = self.page_q
 		c.paginator = h.paginate.Page(
-			c.pages,
+			c.pages,	
 			page=int(request.params.get('page', 1)),
 			items_per_page = 1,
 		)
+	
 		return render('page/list.html')
 
 	def show(self, id=None):

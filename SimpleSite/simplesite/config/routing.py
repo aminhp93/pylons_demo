@@ -19,6 +19,11 @@ def make_map(config):
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
+    map.connect('/auth', controller='auth', action='auth')
+    map.connect('/auth/submit', controller='auth', action='login_handler')
+    map.connect('/auth/continue', controller='auth', action='post_login')
+    map.connect('/logout/continue', controller='auth', action='post_logout')
+    map.connect('/logout', controller='auth', action='logout_handler')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

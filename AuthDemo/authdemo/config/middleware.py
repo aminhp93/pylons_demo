@@ -1,7 +1,7 @@
     
 """Pylons middleware initialization"""
 import authkit.authenticate 
-import authkit.authorize
+# import authkit.authorize
 
 from authkit.permissions import ValidAuthKitUser
 from beaker.middleware import SessionMiddleware
