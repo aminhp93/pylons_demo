@@ -4,9 +4,20 @@ New Video
 {% endblock %}
 {% block content %}
 
+
 {{ h.form(h.url(controller='video', action='create'), method='post') }}
 Title: {{ h.text('title')}}<br>
 Url: {{ h.text('url')}}<br>
+Tags: <select name="tag_id" id="" multiple="">
+	{% for tag in tags %}
+		<option value="{{ tag.id }}">{{ tag.content }}</option>
+	{% endfor %}
+</select>
 {{ h.submit('submit', 'Submit') }}
 {{ h.end_form() }}
+
+{% for tag in tags %}
+<a href="">#{{ tag.content }} </a>
+{% endfor %}
+
 {% endblock %}

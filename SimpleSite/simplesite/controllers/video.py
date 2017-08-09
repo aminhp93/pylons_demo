@@ -8,7 +8,7 @@ from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 
-from simplesite.model import Video
+from simplesite.model import Video, Tag, Association
 from simplesite.lib.base import BaseController, render
 from simplesite.model.meta import Session
 
@@ -38,14 +38,20 @@ class VideoController(BaseController):
 			abort(404)
 		return render('video/show.html')
 
-	def new(self):	
-		return render('video/new.html')
+	def new(self):
+		tags = Session.query(Tag).all()
+		return render('video/new.html', {'tags': tags})
 
 	@validate(schema=NewVideoForm(), form='new')
 	def create(self):
 		video = Video()
 		for k, v in self.form_result.items():
 			setattr(video, k, v)
+
+		tag_list = request.params.getall('tag_id')
+		for tag_id in tag_list:
+			tag = Session.query(Tag).filter_by(id=tag_id).first()
+			video.tags.append(tag)
 
 		Session.add(video)
 		Session.commit()

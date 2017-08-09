@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} 
+New tag
+{% endblock %}
+{% block content %}
+
+{{ h.form(h.url(controller='tag', action='create'), method='post') }}
+Tag: {{ h.text('content')}}<br>
+{{ h.submit('submit', 'Submit') }}
+{{ h.end_form() }}
+{% endblock %}

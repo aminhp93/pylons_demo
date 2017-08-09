@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}
+Related tag{% endblock %}
+{% block content %}
+	{% for video in video_list %}
+	<h3>{{ video.title }} </h3>
+	<div>{{ video.url}}</div>
+	{% endfor %}
+{% endblock %}

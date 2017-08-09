@@ -10,6 +10,13 @@
 		<div class="col-sm-6">
 			{{ video.url }}<br>
 	    <a href="/video/show/{{ video.id }}">View</a>
+
+	    <div>Related: 
+	    {% for tag in video.tags %}
+	    	 {{ h.link_to(tag.content, url(controller='tag', action='related', content=tag.content )) }} 
+	    {% endfor %}
+	    </div>
+
 	    </div>
 	    {% endfor %}
 

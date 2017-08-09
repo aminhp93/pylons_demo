@@ -15,7 +15,7 @@ def setup_app(command, conf, vars):
 	load_environment(conf.global_conf, conf.local_conf)
 
 	users = UsersFromDatabase(model)
-	print(users, "============")
+	# print(users, "============")
 	
 	# Create the tables if they don't already exist
 	log.info("Creating tables")
@@ -31,9 +31,9 @@ def setup_app(command, conf, vars):
 	users.user_create("amin2", password="minh1234")
 	users.user_add_role("amin", role="admin")
 	users.user_add_role("amin", role="delete")
-	print(users, "=========================")
-	print(dir(users))
-	print(dir(users.list_roles))
+	# print(users, "=========================")
+	# print(dir(users))
+	# print(dir(users.list_roles))
 
 	log.info("Adding tags...")
 	Session.commit()

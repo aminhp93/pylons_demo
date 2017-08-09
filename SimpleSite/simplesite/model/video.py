@@ -1,5 +1,6 @@
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.types import Integer, String
+from sqlalchemy.orm import relation
 
 from simplesite.model.meta import Base
 
@@ -10,7 +11,9 @@ class Video(Base):
     title = Column(String(100))
     url = Column(String(100))
     page_id = Column(Integer, ForeignKey('page.id'))
-
+    tag = relation("Tag",
+                    secondary="association",
+                    backref="videos")
 
     def __init__(self, title='', url=''):
         self.title = title

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} 
+ | Edit Tag
+{% endblock %}
+{% block content %}
+<h3>Edit {{ tag.content }} Tag:</h3>
+{{ h.form(h.url(controller='tag', action='save', id=request.urlvars['id'], method='post')) }}
+Tag: {{ h.text('content')}}<br>
+{{ h.submit('submit', 'Submit') }}
+{{ h.end_form() }}
+{% endblock %}

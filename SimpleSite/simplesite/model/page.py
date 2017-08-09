@@ -1,7 +1,7 @@
 from sqlalchemy import Column
 from sqlalchemy.types import Integer, String
 from sqlalchemy.orm import relation
-# from simplesite.model.video import Video
+
 from simplesite.model.meta import Base
 
 class Page(Base):
@@ -11,6 +11,7 @@ class Page(Base):
     title = Column(String(100))
     content = Column(String(100))
     videos = relation('Video', backref='page')
+    tags = relation('Tag', backref='page')
 
     def __init__(self, title='', content=''):
         self.title = title

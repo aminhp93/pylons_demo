@@ -2,6 +2,7 @@
 from simplesite.model.meta import Session, Base
 from simplesite.model.page import Page
 from simplesite.model.video import Video
+from simplesite.model.tag import Tag, Association
 from simplesite.model.account import Account
 
 def init_model(engine):
