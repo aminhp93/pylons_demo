@@ -5,6 +5,8 @@ from formencode import htmlfill
 from authkit.authorize.pylons_adaptors import authorize
 import authkit
 from simplesite.lib import helpers as h
+from authkit.authorize.pylons_adaptors import authorize
+from authkit.permissions import RemoteUser, ValidAuthKitUser, UserIn
 
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
@@ -27,8 +29,14 @@ class PageController(BaseController):
 
 	def __before__(self):
 		self.page_q = Session.query(Page)
+		# user = session.get('user')
+		# if user:
+		# 	request.environ['REMOTE_USER'] = user
 
+	@authorize(ValidAuthKitUser())
 	def list(self):
+		# if h.auth.authorized(h.auth.is_valid_user):
+
 		c.pages = self.page_q
 		c.paginator = h.paginate.Page(
 			c.pages,	
@@ -37,6 +45,7 @@ class PageController(BaseController):
 		)
 	
 		return render('page/list.html')
+		# return render('account/signin.html')
 
 	def show(self, id=None):
 		if id is None:

@@ -8,8 +8,8 @@
 	  <div class="row">
 	   {% for tag in c.tags %}
 		<div class="col-sm-2">
-	    <a href="/tag/show/{{ tag.id }}">{{ tag.content }}</a>
-	    </div>
+ 			{{ h.link_to(tag.content, url(controller='tag', action='related', content=tag.content )) }} 	    
+ 		</div>
 	    {% endfor %}
 
 	  </div>

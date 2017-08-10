@@ -20,12 +20,12 @@ Admin{% endblock %}
 	    </thead>
 	    <tbody>
 
-	    {% for user in c.users %}
+	    {% for user in users %}
 	      <tr>
-	        <td><a href="/user/show/{{ user.id }}">{{ user }}</a></td>
-	        <td><a href="/user/show/{{ user.id }}">View</a></td>
-	        <td><a href="/user/edit/{{ user.id }}">Edit</a></td>
-	        <td><a href="/user/delete/{{ user.id }}">Delete</a></td>
+	        <td>{{ user.username }} | ID:{{ user.uid }}</td>
+	        <td><a href="/account/show_user/{{ user.uid }}">Show</a></td>
+	        <td><a href="/account/edit_user/{{ user.uid }}">Edit</a></td>
+	        <td><a href="/account/delete_user/{{ user.uid }}">Delete</a></td>
 	      </tr>
 	      {% endfor %}
 	     </tbody>

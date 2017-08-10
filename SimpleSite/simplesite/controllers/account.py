@@ -10,73 +10,83 @@ from pylons.controllers.util import abort, redirect
 from simplesite.lib import helpers as h
 from simplesite.lib.base import BaseController, render
 from simplesite.model.meta import Session, Base
+from simplesite.model import User
 
 log = logging.getLogger(__name__)
 
 class AccountController(BaseController):
-
-	def index(self):
-		return 'Hello World'
-
-	def __before__(self):
-		user = session.get('user')
-		if user:
-			request.environ['REMOTE_USER'] = user
 
 	def signup(self):
 		return render('account/signup.html')
 
 	def create_user(self):
 		users = request.environ['authkit.users']
-		created = False
-		for i in users.list_users():
-			if i.encode('utf-8') == request.params['username']:
-				created = True
-
-		if created == False:
+		if users.user_exists(request.params['username']) is False:
 			users.user_create(request.params['username'], password=request.params['password'])
 			Session.commit()
-		print(users.list_users())
-		c.user = 'asdf'
-		# c.user = {request.params['username']: password=request.params['password']}
+		c.user = request.params['username']
 		return render('account/user_created.html')
 
-	def signin(self, id="private"):
-		print("singin test")
-		print(id, "=====")
-		if len(request.params) > 1 and request.params['username'] is not None:
-			session['user'] = request.params['username']
-			session.save()
-			print(id, 'line 50')
-			return redirect(url(controller='account', action=id))
+	def signin(self):
+		users = request.environ['authkit.users']
+		if len(request.params) > 1 and request.params.get('username') is not None and request.params.get('password') is not None:
+			if users.user_exists(request.params['username']):
+				if users.user_has_password(request.params['username'], password=request.params['password']):
+					session['user'] = request.params['username']
+					session.save()
+					return redirect(url(controller='account', action='private'))
 		elif session.get('user'):
-			return redirect(url(controller='account', action=id))
-		else:
-			return render('account/signin.html', {id:id})
+			return redirect(url(controller='account', action='private'))
+		return render('account/signin.html')
 
 	def signout(self):
 		session.delete()
 		return render('account/signedout.html')
-
 
 	def public(self):
 		return 'This is public'
 
 	# @authorize(RemoteUser())
 	def private(self):
-		# for i in request.environ:
 		if request.environ.get("REMOTE_USER"):
-			print(request.remote_user)
 			return render('private.html')
 		else:
-			return redirect(url(controller='account', action="signin", id='private'))
+			return redirect(url(controller='account', action="signin"))
 
-	# @authorize(h.auth.is_valid_user)
+	@authorize(h.auth.has_admin_role)
 	def admin(self):
-		if h.auth.authorized(h.auth.has_admin_role):
-			users = request.environ['authkit.users']
-			list_users = users.list_users()
-			c.users = list_users
-			return render('admin.html')
-		return redirect(url(controller='account', action="signin", id='admin'))
+		# if h.auth.authorized(h.auth.has_admin_role):
+		users = Session.query(User).all()		
+		return render('admin.html', {'users': users})
+
+	@authorize(h.auth.has_admin_role)
+	def show_user(self, id=None):
+		if id is None:
+			abort(404)
+		user = Session.query(User).filter_by(uid=id).first()
+		if user is None:
+			abort(404)
+		return render('admin.html')
+
+	@authorize(h.auth.has_admin_role)
+	def edit_user(self, id=None):
+		if id is None:
+			abort(404)
+		user = Session.query(User).filter_by(uid=id).first()
+		if user is None:
+			abort(404)
+		return render('admin.html')
+
+	@authorize(h.auth.has_admin_role)
+	def delete_user(self, id=None):
+		if id is None:
+			abort(404)
+		user = Session.query(User).filter_by(uid=id).first()
+		if user is None:
+			abort(404)
+		Session.delete(user)
+		Session.commit()
+		return render('admin.html')
+
+
 

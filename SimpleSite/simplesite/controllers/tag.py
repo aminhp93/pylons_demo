@@ -37,7 +37,10 @@ class TagController(BaseController):
 			abort(404)
 		return render('tag/show.html', {'tag': tag})
 
-	def new(self):	
+	def new(self):
+		a = ExpiringTokenGenerator()
+		b = a.generate_token()
+		print(b)
 		return render('tag/new.html')
 
 	@validate(schema=NewTagForm(), form='new')
