@@ -5,14 +5,25 @@
 {% block content %}
 <h1><a href="/tag/new">Add new tag</a></h1>
 	<div class="container">
-	  <div class="row">
-	   {% for tag in c.tags %}
-		<div class="col-sm-2">
- 			{{ h.link_to(tag.content, url(controller='tag', action='related', content=tag.content )) }} 	    
- 		</div>
-	    {% endfor %}
+	 <table class="table">
+	    <thead>
+	      <tr>
+	        <th>Title</th>
+	        <th>View</th>
+	    
+	      </tr>
+	    </thead>
+	    <tbody>
 
-	  </div>
+	    {% for tag in c.tags %}
+		<tr>
+ 			<td>{{ h.link_to(tag.content, url(controller='tag', action='related', content=tag.content )) }}</td>    
+ 			<td>{% if tag.confirm %}Active{% else %} Not activated{% endif %}</td>    
+ 		</tr>
+	    {% endfor %}
+	     </tbody>
+	  </table>
+	 
 	  
 	</div>
 

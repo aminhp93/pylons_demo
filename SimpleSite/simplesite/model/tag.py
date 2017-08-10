@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Table
-from sqlalchemy.types import Integer, String
+from sqlalchemy.types import Integer, String, Boolean
 from sqlalchemy.orm import relation
 
 from simplesite.model.meta import Base
@@ -26,13 +26,16 @@ class Tag(Base):
 
     id = Column(Integer, primary_key=True)
     content = Column(String(100))
+    confirm = Column(Boolean, nullable=False, default=False)
     page_id = Column(Integer, ForeignKey('page.id'))
     video = relation("Video",
                     secondary="association",
                     backref="tags")
 
-    def __init__(self, content=''):
+    def __init__(self, content='', confirm=''):
         self.content = content
+        self.confirm = confirm
+        
 
     def __repr__(self):
         return "<Tag('%s')" % self.content

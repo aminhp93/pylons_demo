@@ -2,16 +2,16 @@ import logging
 import formencode
 from formencode import htmlfill
 
-from simplesite.lib import helpers as h
-
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 
 from simplesite.model import Tag, Association, Video
+from simplesite.lib import helpers as h
 from simplesite.lib.base import BaseController, render
+from simplesite.lib.generate_token import generate_confirmation_token, confirm_token
+from simplesite.lib.send_mail import send_mail
 from simplesite.model.meta import Session
-
 
 log = logging.getLogger(__name__)
 
@@ -38,9 +38,6 @@ class TagController(BaseController):
 		return render('tag/show.html', {'tag': tag})
 
 	def new(self):
-		a = ExpiringTokenGenerator()
-		b = a.generate_token()
-		print(b)
 		return render('tag/new.html')
 
 	@validate(schema=NewTagForm(), form='new')
@@ -48,9 +45,26 @@ class TagController(BaseController):
 		tag = Tag()
 		for k, v in self.form_result.items():
 			setattr(tag, k, v)
-
+		tag.confirm = False
 		Session.add(tag)
 		Session.commit()
+		token = generate_confirmation_token(tag.content)
+
+		confirm_url = url(controller='tag', action='confirm', token=token)
+		print(confirm_url, "===========================================")
+		email_content = """
+		<head>
+		  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		  <title>html title</title>
+		</head>
+		<body>
+		  <p>Welcome! Thanks for signing up. Please follow this link to activate your account:</p>
+			<p><a href="http://localhost:5000%s">%s</a></p>
+			<br>
+		</body>
+		""" % (confirm_url, confirm_url)
+		send_mail("Test email", email_content, "minhpn@rikkeisoft.com", "minhpn.org.ec@gmail.com")
+
 		return redirect(url(controller='tag', action='list'))
 
 	def edit(self, id=None):
@@ -102,5 +116,23 @@ class TagController(BaseController):
 
 		return render('tag/related_result.html', {'video_list': video_list})
 
-
+	def confirm(self, token=None):
+		token = request.params['token']
+		print(token)	
+		try:
+			content = confirm_token(token)
+			print(content)
+		except:
+			print('The confirmation link is invalid or has expired.', 'danger')
+		tag = Session.query(Tag).filter_by(content=content).first()
+		print(tag)
+		print(dir(tag))
+		if tag.confirm:
+			print('Account already confirmed. Please login.', 'success')
+		else:
+			tag.confirm = True
+			Session.add(tag)
+			Session.commit()
+			print('You have confirmed your account. Thanks!', 'success')
+		return redirect(url(controller='tag', action='list'))
 

@@ -87,6 +87,3 @@ class AccountController(BaseController):
 		Session.delete(user)
 		Session.commit()
 		return render('admin.html')
-
-
-

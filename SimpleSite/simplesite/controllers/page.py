@@ -1,10 +1,10 @@
+import authkit
 import logging
 import formencode
+
 from formencode import htmlfill
 
 from authkit.authorize.pylons_adaptors import authorize
-import authkit
-from simplesite.lib import helpers as h
 from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import RemoteUser, ValidAuthKitUser, UserIn
 
@@ -12,10 +12,10 @@ from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 
+from simplesite.lib import helpers as h
 from simplesite.model import Page, Video
 from simplesite.lib.base import BaseController, render
 from simplesite.model.meta import Session
-
 
 log = logging.getLogger(__name__)
 
