@@ -36,7 +36,6 @@ class PageController(BaseController):
 	@authorize(ValidAuthKitUser())
 	def list(self):
 		# if h.auth.authorized(h.auth.is_valid_user):
-
 		c.pages = self.page_q
 		c.paginator = h.paginate.Page(
 			c.pages,	
@@ -45,7 +44,6 @@ class PageController(BaseController):
 		)
 	
 		return render('page/list.html')
-		# return render('account/signin.html')
 
 	def show(self, id=None):
 		if id is None:

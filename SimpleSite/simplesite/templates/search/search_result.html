@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} 
+Search Result{% endblock %}
+{% block content %}
+<h1>Search</h1>
+{% for result in results %}
+<div>
+	<a href="/video/show/{{ result.id }}">{{ result.title }}</a>
+</div>
+{% else %}
+<div>No match found.</div>
+{% endfor %}
+{% endblock %}

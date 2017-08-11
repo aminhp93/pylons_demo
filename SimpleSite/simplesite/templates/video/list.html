@@ -4,6 +4,10 @@
 {% endblock %}
 {% block content %}
 <h1><a href="/video/new">Add new video</a></h1>
+{{ h.form(h.url(controller='search', action='index'), method='post') }}
+          {{ h.text('q', class='form-control')}}
+          {{ h.submit('submit', 'Submit', class='btn btn-default') }}
+          {{ h.end_form() }}
 	<div class="row">
 	  <div>
 	   {% for video in c.videos %}
